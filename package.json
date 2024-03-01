@@ -1,0 +1,19 @@
+{
+  "name": "contact-project",
+  "version": "1.0.0",
+  "description": "This is my first server practice project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Doctorzik/contact-project.git"
+  },
+  "author": "Ezekiel H. Jeremiah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Doctorzik/contact-project/issues"
+  },
+  "homepage": "https://github.com/Doctorzik/contact-project#readme"
+}
