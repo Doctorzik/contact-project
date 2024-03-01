@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Doctorzik/contact-project/issues"
   },
-  "homepage": "https://github.com/Doctorzik/contact-project#readme"
+  "homepage": "https://github.com/Doctorzik/contact-project#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
 }
