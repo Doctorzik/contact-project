@@ -6,3 +6,22 @@ https://contact-project-9ems.onrender.com/users/
 //Get a single user contact
 
 https://contact-project-9ems.onrender.com/users/65e4e37149c806bacd3a7b63
+
+
+
+ GET http://localhost:3000/users
+
+
+
+
+
+POST http://localhost:3000/users  HTTP/1.1
+content-type: application/json 
+{
+  "firstname": "ezekiel",
+  "lastname": "me",
+  "email": "ezekeie@gggh",
+  "favorite_color": "green",
+  "birthdate": "17-08-1996"
+}
+
