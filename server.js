@@ -5,17 +5,21 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Origin",
     "Origin, x-Requested-With, Content-Type, Accept, Accept z-key"
   );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  next();   // Tells the app to go to the next middleware.
 });
-
-app.use("/", require("./routes"));
+// This is the next middleware
+app.use("/", require("./routes"));  // Direct to the routes folder and find an index.js file
 
 mongodb.initDb((err) => {
   if (err) {
