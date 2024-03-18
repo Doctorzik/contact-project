@@ -1,11 +1,12 @@
 const { response } = require("express");
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
+const validator = require("../validator");
 
 const getAllUsers = async (req, res) => {
   // # swagger.tags = ["Users"];
-  const result = await mongodb.getDatabase().db().collection("contacts").find();
 
+  const result = await mongodb.getDatabase().db().collection("contacts").find();
   result.toArray().then((contacts) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(contacts);
@@ -15,6 +16,11 @@ const getAllUsers = async (req, res) => {
 const getSingleUser = async (req, res) => {
   // # swagger.tags = ["Users"];
 
+  // validate the objectid
+  if (ObjectId.isValid(req.params.id) === false) {
+    return res.status(400).json("invalid Object Id");
+  }
+   
   const userId = new ObjectId(req.params.id);
   const result = await mongodb
     .getDatabase()
@@ -30,19 +36,16 @@ const getSingleUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   // # swagger.tags = ["Users"];
+  const { error, value } = validator.validateUser(req.body);
+  if (error) {
+    return res.status(400).send(error.details);
+  }
 
-  user = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    favorite_color: req.body.favorite_color,
-    birthdate: req.body.birthdate,
-  };
   const response = await mongodb
     .getDatabase()
     .db()
     .collection("contacts")
-    .insertOne(user);
+    .insertOne(value);
   if (response.acknowledged) {
     res.status(204).send();
   } else {
@@ -52,21 +55,27 @@ const createUser = async (req, res) => {
   }
 };
 const updateUser = async (req, res) => {
+
+
   // # swagger.tags = ["Users"];
 
-  const userId = new ObjectId(req.params.id);
-  user = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    favorite_color: req.body.favorite_color,
-    birthdate: req.body.birthdate,
-  };
+   // validate the objectid
+   if (ObjectId.isValid(req.params.id) === false) {
+
+    return res.status(400).json("invalid Object Id");
+  }
+
+  const { error, value } = validator.validateUser(req.body);
+    if(error){
+
+      return res.status(400).json(error.details)
+    }
+
   const response = await mongodb
     .getDatabase()
     .db()
     .collection("contacts")
-    .replaceOne({ _id: userId }, user);
+    .replaceOne({ _id: userId }, value);
   if (response.modifiedCount > 0) {
     res.status(204).send();
   } else {
@@ -78,9 +87,14 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   // # swagger.tags = ["Users"];
+  // validate the objectid
+  if (ObjectId.isValid(req.params.id) === false) {
 
+    return res.status(400).json("invalid Object Id");
+  }
+  
   const userId = new ObjectId(req.params.id);
-  console.log("me1");
+
   const response = await mongodb
     .getDatabase()
     .db()

@@ -16,11 +16,17 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
   );
-  next();   // Tells the app to go to the next middleware.
+  next(); // Tells the app to go to the next middleware.
 });
 // This is the next middleware
-app.use("/", require("./routes"));  // Direct to the routes folder and find an index.js file
+app.use("/", require("./routes")); // Direct to the routes folder and find an index.js file
 
+// process.on("uncaughtException", (err, origin) => {
+//   console.log(
+//     process.stderr.fd,
+//     `Caught exception: ${err}\n` * `Exception origin: ${origin}`
+//   );
+// });
 mongodb.initDb((err) => {
   if (err) {
     console.log(err);
